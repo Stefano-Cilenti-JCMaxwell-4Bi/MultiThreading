@@ -57,8 +57,6 @@ public class MultiThread {
 // +1 si possono passare parametri (usando il Costruttore)
 // +1 si puo' controllare quando un THREAD inizia indipendentemente da quando e' stato creato
 class TicTacToe implements Runnable {
-    public static int Punteggio = 0;
-    public static String ThreadPrecedente = "   ";
     // non essesndo "static" c'e' una copia delle seguenti variabili per ogni THREAD 
     private String t;
     private String msg;
@@ -67,11 +65,18 @@ class TicTacToe implements Runnable {
     public TicTacToe (String s) {
         this.t = s;
     }
+class Schermi {
+     String ultimoTHREAD = ""; // ultimo thread che ha scritto sullo schermo
+     int punteggio = 0;        // anche punteggio viene condiviso dai threads
+    
+public int punteggio() {  // fornisce il punteggio
+     return this.punteggio;
+  }
     
     @Override // Annotazione per il compilatore
     // se facessimo un overloading invece di un override il copilatore ci segnalerebbe l'errore
     // per approfondimenti http://lancill.blogspot.it/2012/11/annotations-override.html
-    public void run() {
+    public synchronized void run() {
         Random random = new Random();
         int j = 100;
         int n = 300-j;
